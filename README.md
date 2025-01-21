@@ -1,0 +1,2 @@
+# SQLAlchemy demos
+This is a collection of demos using SQLAlchemy v2. Most of the stuff should be roughly identical to examples on SQLAlchemy's official website, except that stuff is contained in ready-to-run files. Every directory contains a separate small demo based on a different part of the docs and its guides.
