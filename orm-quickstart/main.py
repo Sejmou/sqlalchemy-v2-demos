@@ -98,6 +98,23 @@ def get_email_addresses(username: str):
         return [address.email_address for address in user.addresses]
 
 
+def delete_user(username: str):
+    """
+    This function demonstrates how we can use the ORM to delete a User object from the database.
+
+    Any related Address objects will also be deleted due to the `cascade="all, delete-orphan"` option set on the `User.addresses` relationship in the `User` class definition.
+    """
+    with Session(engine) as session:
+        user = session.execute(select(User).where(User.name == username)).scalar_one()
+        session.delete(user)
+        session.commit()
+
+
+def get_users():
+    with Session(engine) as session:
+        return session.execute(select(User)).scalars().all()
+
+
 def main():
     actions = [
         ("adding users", add_users),
@@ -115,6 +132,9 @@ def main():
             "getting patrick's email addresses (after update)",
             lambda: print(get_email_addresses("patrick")),
         ),
+        ("getting all users (before)", lambda: print(get_users())),
+        ("deleting user patrick", lambda: delete_user("patrick")),
+        ("getting all users (after)", lambda: print(get_users())),
     ]
     for description, action in actions:
         print(f"{description}...")
